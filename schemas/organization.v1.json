@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/organization/v1",
+  "title": "Organization",
+  "description": "An organisation.",
+  "type": "object",
+  "required": [
+    "displayName"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "wallet": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "ed25519 public key, hex. Identifies the organisation. Absent until it holds one."
+    },
+    "localIds": {
+      "$ref": "common.v1.json#/$defs/localIds",
+      "description": "The id this organisation has in each system that holds a record of it."
+    },
+    "displayName": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The name it is known by."
+    },
+    "legalName": {
+      "type": "string",
+      "description": "The name it is registered under."
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "description": "URL-safe handle, lowercase."
+    },
+    "country": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$",
+      "description": "ISO 3166-1 alpha-2 country of registration."
+    },
+    "taxIds": {
+      "type": "array",
+      "description": "Its tax or registry identifiers, one per scheme.",
+      "items": {
+        "$ref": "common.v1.json#/$defs/taxIdentifier"
+      }
+    },
+    "contacts": {
+      "type": "array",
+      "description": "Ways to reach it.",
+      "items": {
+        "$ref": "common.v1.json#/$defs/contactPoint"
+      }
+    },
+    "website": {
+      "type": "string"
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

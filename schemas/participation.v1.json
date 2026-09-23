@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/participation/v1",
+  "title": "Participation",
+  "description": "An organisation's role in an event, a publication, a split or a programme.",
+  "type": "object",
+  "required": [
+    "organization",
+    "context",
+    "contextId",
+    "role"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "organization": {
+      "type": "string",
+      "description": "The organisation's wallet, or its id under localIds."
+    },
+    "context": {
+      "type": "string",
+      "enum": [
+        "event",
+        "publication",
+        "split",
+        "program"
+      ],
+      "description": "What kind of thing it participates in."
+    },
+    "contextId": {
+      "type": "string",
+      "description": "The id of that thing, in the system that owns it."
+    },
+    "role": {
+      "type": "string",
+      "description": "Its role there, in that context's own words. Free text: the vocabulary belongs to the context.",
+      "examples": [
+        "sponsor",
+        "exhibitor",
+        "publisher",
+        "seller",
+        "coproducer"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "proposed",
+        "active",
+        "ended"
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

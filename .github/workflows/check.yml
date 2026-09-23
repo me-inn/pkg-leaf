@@ -1,0 +1,30 @@
+name: Check
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+jobs:
+  # The whole point of this repository: a generated file that somebody edited
+  # by hand is a divergence, and a divergence here is the thing six systems
+  # have been paying for. So we regenerate and refuse any difference.
+  generated-matches-schema:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Regenerate
+        run: ./generate.sh
+
+      - name: Refuse any hand edit
+        run: |
+          if ! git diff --quiet; then
+            echo "::error::A generated file does not match the schema it came from."
+            echo "Change the schema in schemas/ and run ./generate.sh — never edit generated/."
+            git --no-pager diff --stat
+            exit 1
+          fi

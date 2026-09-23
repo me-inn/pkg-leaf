@@ -1,0 +1,23 @@
+{
+  "name": "@me-inn/leaf",
+  "version": "1.0.0",
+  "description": "The shape of the data: JSON Schema, with types generated for Dart, Rust, TypeScript and Python.",
+  "type": "module",
+  "exports": {
+    ".": "./generated/typescript/index.ts",
+    "./organization": "./generated/typescript/organization.ts",
+    "./person": "./generated/typescript/person.ts",
+    "./membership": "./generated/typescript/membership.ts",
+    "./participation": "./generated/typescript/participation.ts",
+    "./schemas/*": "./schemas/*"
+  },
+  "files": [
+    "generated",
+    "schemas"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/me-inn/pkg-leaf.git"
+  }
+}

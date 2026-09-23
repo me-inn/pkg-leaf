@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/common/v1",
+  "title": "Common",
+  "description": "Shapes used by more than one entity.",
+  "$defs": {
+    "taxIdentifier": {
+      "type": "object",
+      "title": "TaxIdentifier",
+      "description": "A tax or registry identifier.",
+      "required": [
+        "type",
+        "value"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "examples": [
+            "CNPJ",
+            "CPF",
+            "EIN",
+            "VAT",
+            "NIF",
+            "RFC"
+          ],
+          "description": "The scheme, such as CNPJ, CPF, NIF, VAT or EIN. Free text, always stated, never inferred from the length of the value."
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        },
+        "country": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}$",
+          "description": "ISO 3166-1 alpha-2, when the scheme does not imply one."
+        },
+        "documentUrl": {
+          "type": "string",
+          "description": "URL of the supporting document."
+        }
+      }
+    },
+    "contactPoint": {
+      "type": "object",
+      "title": "ContactPoint",
+      "description": "One way to reach an actor.",
+      "required": [
+        "type",
+        "value"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "email",
+            "whatsapp",
+            "mobile",
+            "phone"
+          ],
+          "description": "Which channel the value is for."
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "description": "An address, or a number in E.164 digits including the country code."
+        },
+        "verified": {
+          "type": "boolean",
+          "default": false
+        },
+        "verifiedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "locale": {
+          "type": "string",
+          "enum": [
+            "pt",
+            "en",
+            "es"
+          ],
+          "description": "The language to write to this point in."
+        }
+      }
+    },
+    "localIds": {
+      "type": "object",
+      "title": "LocalIds",
+      "description": "The id this actor has in each system that holds a record of it, keyed by system name. Used while it has no wallet.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}

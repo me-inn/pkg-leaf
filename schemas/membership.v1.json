@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/membership/v1",
+  "title": "Membership",
+  "description": "A person belonging to an organisation.",
+  "type": "object",
+  "required": [
+    "person",
+    "organization"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "person": {
+      "type": "string",
+      "description": "The person's wallet, or their id under localIds."
+    },
+    "organization": {
+      "type": "string",
+      "description": "The organisation's wallet, or its id under localIds."
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "What they may do inside it. Free text: the verbs belong to the system that grants them."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "invited",
+        "active",
+        "suspended",
+        "left"
+      ]
+    },
+    "invitedBy": {
+      "type": "string",
+      "description": "The wallet or local id of whoever invited them."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

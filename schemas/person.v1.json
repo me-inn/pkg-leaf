@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/person/v1",
+  "title": "Person",
+  "description": "A person. Holds no authentication secret: password hashes, reset tokens and auth providers belong to the system that authenticates.",
+  "type": "object",
+  "required": [
+    "displayName"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "wallet": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "ed25519 public key, hex. Identifies the person. Absent until they hold one."
+    },
+    "localIds": {
+      "$ref": "common.v1.json#/$defs/localIds",
+      "description": "The id this person has in each system that holds a record of them."
+    },
+    "displayName": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The name they are known by."
+    },
+    "handle": {
+      "type": "string",
+      "description": "Their public address, without the @."
+    },
+    "country": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$",
+      "description": "ISO 3166-1 alpha-2, where they are registered."
+    },
+    "taxIds": {
+      "type": "array",
+      "description": "Their tax or registry identifiers, one per scheme.",
+      "items": {
+        "$ref": "common.v1.json#/$defs/taxIdentifier"
+      }
+    },
+    "contacts": {
+      "type": "array",
+      "items": {
+        "$ref": "common.v1.json#/$defs/contactPoint"
+      },
+      "description": "Ways to reach them."
+    },
+    "locale": {
+      "type": "string",
+      "enum": [
+        "pt",
+        "en",
+        "es"
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}
