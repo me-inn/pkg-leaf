@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/request/v1",
+  "title": "Request",
+  "description": "Somebody asking somebody else for a time. A request, not a booking: it records what was asked, never that a slot is taken.",
+  "type": "object",
+  "required": [
+    "to",
+    "wanted"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The record's own id in the system that holds it."
+    },
+    "to": {
+      "type": "string",
+      "description": "The wallet, handle, or id under localIds of whoever is being asked."
+    },
+    "from": {
+      "type": "string",
+      "description": "The wallet or local id of whoever is asking, when they have one. Absent for somebody with no account anywhere."
+    },
+    "requester": {
+      "type": "string",
+      "description": "Who is asking, as they gave it. Unverified, and read by a person."
+    },
+    "contacts": {
+      "type": "array",
+      "items": {
+        "$ref": "common.v1.json#/$defs/contactPoint"
+      },
+      "description": "How to reach whoever asked, so an answer can get back to them."
+    },
+    "wanted": {
+      "type": "string",
+      "description": "When they want, in their own words. Not a timestamp: a parsed date is a claim about a timezone and a working hour, and a person reading the words cannot misread them."
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "confirmed",
+        "declined"
+      ],
+      "description": "An answer is final. A second answer does not change the first."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "answeredAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

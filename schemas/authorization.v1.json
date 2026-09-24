@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/authorization/v1",
+  "title": "Authorization",
+  "description": "Somebody letting a piece of software act for them. What was granted, to whom, and until when — never the credential that proves it. The code and the token are secrets, they are held only as a hash by the system that issued them, and neither has a shape here.",
+  "type": "object",
+  "required": [
+    "subject",
+    "client"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "subject": {
+      "type": "string",
+      "description": "The wallet, or the id under localIds, of whoever is being acted for. The grant is theirs and so is taking it back."
+    },
+    "client": {
+      "type": "string",
+      "format": "uri",
+      "description": "The https URL that identifies the software. It is also where that software describes itself, so nothing about it has to be copied here."
+    },
+    "label": {
+      "type": "string",
+      "description": "What the software calls itself, as it said. Recorded so a person recognises it when deciding what to take back; never used to decide anything."
+    },
+    "grantedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When it stops working on its own, with nobody having to do anything."
+    },
+    "revokedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When it was taken back. A grant that ended is kept rather than deleted: what was allowed, and until when, is a fact about the past."
+    }
+  }
+}
