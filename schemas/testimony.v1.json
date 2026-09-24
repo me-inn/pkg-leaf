@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/testimony/v1",
+  "title": "Testimony",
+  "description": "Something one person wrote about another, published with the subject's consent and their author's name attached.",
+  "type": "object",
+  "required": [
+    "author",
+    "subject"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The record's own id in the system that holds it."
+    },
+    "author": {
+      "type": "string",
+      "description": "The wallet, or the id under localIds, of whoever wrote it."
+    },
+    "subject": {
+      "type": "string",
+      "description": "The wallet, or the id under localIds, of whoever it is about."
+    },
+    "detail": {
+      "type": "string",
+      "description": "What was written, in the author's own words. A scene rather than an attribute: what the subject did, told by whoever was there."
+    },
+    "signature": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{128}$",
+      "description": "ed25519 over the record, hex. Signed by the author's wallet, so the words can be shown to have come from them."
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "published",
+        "hidden"
+      ],
+      "description": "Published only once the subject has agreed. Pending is written and not readable by anyone but its author."
+    },
+    "sealedUntil": {
+      "type": "string",
+      "format": "date-time",
+      "description": "While set, the subject is told the record exists and not what it says. Opens when they write their own, or when this passes."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "publishedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}
