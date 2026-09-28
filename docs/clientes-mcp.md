@@ -152,6 +152,54 @@ do repositório.
 
 ---
 
+## 6. Ferramenta de desenvolvedor não é a mesma coisa que app de conversa
+
+Levantado depois, porque a pergunta "os chineses têm?" revelou que duas coisas
+diferentes estavam sendo contadas como uma.
+
+**Ferramenta de quem programa** — Qwen Code, Kimi Code, Cursor, VS Code,
+Cline, os *harnesses* do DeepSeek. São muitas, e várias falam MCP remoto com
+OAuth: o Qwen Code abre o navegador para autorizar, documentado pela Alibaba.
+
+**Não serve para a Treesy.** Roda no terminal. A dona do salão não chega por
+aí, e é ela que precisa chegar.
+
+**App de conversa onde uma pessoa comum adiciona um conector** — Claude e
+ChatGPT. Mais dois produtos corporativos, Gemini Enterprise e Copilot Studio.
+São quatro.
+
+### Chineses: não sei, e isso está registrado como não sei
+
+O que achei de oficial é da Alibaba, e é plataforma de desenvolvedor: o Model
+Studio conecta a MCP, e os catálogos Bailian e ModelScope têm mercado de
+servidores MCP com OAuth tratado — mas é catálogo curado deles, não "cole uma
+URL qualquer". Existe um QwenWork com gestão de conectores, aparentemente o
+equivalente do Gemini Enterprise; **não foi aberto.**
+
+De DeepSeek, Kimi e Doubao só apareceu blog de terceiro. **Não é fonte.**
+Fica como lacuna, não como ausência.
+
+### O que isso muda
+
+A lista de lugares onde uma pessoa comum consegue conectar é **curta**, e dois
+dos quatro são produto corporativo.
+
+Logo: **credencial estática mais CIMD cobre o mercado praticamente inteiro.**
+Não é trabalho que se repete a cada cliente novo — é trabalho que fecha a
+conta.
+
+E confirma de onde vem a pessoa comum: não é do conector. É do endereço
+`treesy.me/familia-mancini` e do QR Code. O conector é para quem já tem
+agente.
+
+### Fontes desta seção
+
+- [Conectar a MCP pela API do Qwen](https://www.alibabacloud.com/help/en/model-studio/mcp)
+- [Gestão de conectores — QwenWork](https://www.alibabacloud.com/help/en/qwenwork/connectors-management)
+- [Servidor MCP da OpenAPI da Alibaba Cloud](https://www.alibabacloud.com/help/en/openapi/user-guide/openapi-mcp-server-guide)
+
+---
+
 ## Fontes
 
 Protocolo:
