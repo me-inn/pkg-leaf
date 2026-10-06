@@ -81,6 +81,27 @@ for stem in sorted(exported):
         print(f"export type {{ {', '.join(parts)} }} from './{stem}';")
 PYTHON
 
+# The Python package's entry point, read back out of what was just generated,
+# for the same reason as the TypeScript one: a hand-written list is a list
+# that forgets a schema. Each module's top-level class is the schema's name.
+python3 - "$BANNER" <<'PYTHON' > generated/python/__init__.py
+import sys, glob, os
+banner = sys.argv[1]
+print(f'# {banner}')
+print()
+print('# One entry point: `from leaf import Notice`, never a path into this layout.')
+names = []
+for path in sorted(glob.glob('generated/python/*.py')):
+    stem = os.path.basename(path)[:-3]
+    if stem == '__init__':
+        continue
+    name = ''.join(w.capitalize() for w in stem.split('-'))
+    names.append(name)
+    print(f'from .{stem} import {name}')
+print()
+print('__all__ = [' + ', '.join(repr(n) for n in names) + ']')
+PYTHON
+
 # One banner in every generated file, in each language's comment syntax, so
 # whoever opens one knows before reading a line that editing it is pointless.
 for f in generated/dart/*.dart generated/rust/*.rs generated/typescript/*.ts; do
@@ -91,6 +112,7 @@ for f in generated/dart/*.dart generated/rust/*.rs generated/typescript/*.ts; do
 done
 for f in generated/python/*.py; do
   [ -e "$f" ] || continue
+  case "$f" in generated/python/__init__.py) continue;; esac
   printf '# %s\n\n%s' "$BANNER" "$(cat "$f")" > "$f"
 done
 
