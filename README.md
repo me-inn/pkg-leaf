@@ -22,6 +22,10 @@ schemas/organization.v1.json    an organisation
 schemas/person.v1.json          a person
 schemas/membership.v1.json      person ↔ organisation
 schemas/participation.v1.json   organisation ↔ context
+schemas/testimony.v1.json       what one person wrote about another
+schemas/request.v1.json         somebody asking somebody for a time
+schemas/authorization.v1.json   software acting for a person, and until when
+schemas/notice.v1.json          a link somebody put out, and one line about it
 ```
 
 And each language's types are generated from it:
