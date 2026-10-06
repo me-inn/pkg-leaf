@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/notice/v1",
+  "title": "Notice",
+  "description": "A link somebody put out — a video, a magazine, a product — and one line about it. A pointer, never content: the system that holds the link holds what it says, and whoever carries the notice only says that the link exists and when.",
+  "type": "object",
+  "required": [
+    "by",
+    "url"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The record's own id in the system that holds it."
+    },
+    "by": {
+      "type": "string",
+      "description": "The wallet, handle, or id under localIds of whoever put the link out."
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Where the link goes. https, so a page vouching for it can hand it to a machine."
+    },
+    "line": {
+      "type": "string",
+      "description": "One line about it, in the words of whoever put it out. Read by a person; never fetched from the link."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the notice was recorded, which is not when the link was published."
+    }
+  }
+}

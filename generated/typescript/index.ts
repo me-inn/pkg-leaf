@@ -5,6 +5,7 @@
 // the contract.
 export type { Authorization } from './authorization';
 export type { Membership, Status as MembershipStatus } from './membership';
+export type { Notice } from './notice';
 export type { Organization, Locale as OrganizationLocale } from './organization';
 export type { Participation, Context as ParticipationContext, Status as ParticipationStatus } from './participation';
 export type { Person, ContactPoint, Locale as PersonLocale, Type as ContactPointType, TaxIdentifier } from './person';
