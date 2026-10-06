@@ -90,6 +90,17 @@ npm install github:me-inn/pkg-leaf
 import type { Organization, Person } from '@me-inn/leaf';
 ```
 
+```bash
+pip install git+https://github.com/me-inn/pkg-leaf
+```
+
+```python
+from leaf import Notice
+```
+
+The Python package is `generated/python` under the name `leaf`; `generate.sh`
+writes its `__init__` the same way it writes the TypeScript entry point.
+
 ## Branches
 
 `main` is the project. `docs` is where documents live.
