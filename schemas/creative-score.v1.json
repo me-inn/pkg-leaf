@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/creative-score/v1",
+  "title": "CreativeScore",
+  "description": "A reading of one generated piece: how it sat against the voice it was written for, how it fitted the channel it was written into, and why. About a piece of work, never about the person who asked for it — nothing here is said about an actor.",
+  "type": "object",
+  "required": [
+    "generation",
+    "reading"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The record's own id in the system that holds it."
+    },
+    "generation": {
+      "type": "string",
+      "description": "The id of the generated piece this reads, in the system that owns it. A piece of work, not an actor: it has no wallet."
+    },
+    "reading": {
+      "$ref": "common.v1.json#/$defs/creativeReading",
+      "description": "What the scorer made of the piece: the two scores, the one carried alongside them, and why."
+    },
+    "modelUsed": {
+      "type": "string",
+      "description": "The model that read the piece, as it was named at the time. Recorded so two scores can be told apart when the scorer changed underneath them."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the piece was scored, which is not when it was written."
+    }
+  }
+}

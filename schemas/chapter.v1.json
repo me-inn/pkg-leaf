@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/chapter/v1",
+  "title": "Chapter",
+  "description": "One chapter of a book: its place in the running order and the text as it stands now. Earlier states of that text are revisions, each its own record.",
+  "type": "object",
+  "required": [
+    "book",
+    "title"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The record's own id in the system that holds it."
+    },
+    "book": {
+      "type": "string",
+      "description": "The id of the book this chapter belongs to, in the system that holds the book."
+    },
+    "order": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Where it falls in the running order. The number the chapters are sorted by, not the number printed on the page."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The chapter heading."
+    },
+    "content": {
+      "type": "string",
+      "description": "The text as it stands now. Empty while the chapter is only a heading."
+    },
+    "wordCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Words in the current text, counted by whoever holds it."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "writing",
+        "review",
+        "approved"
+      ],
+      "description": "How far along this chapter is, which moves on its own and not with the book's."
+    },
+    "summary": {
+      "type": "string",
+      "description": "What happens in it, in a few lines. Written so the chapter can be reasoned about without reading it whole."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

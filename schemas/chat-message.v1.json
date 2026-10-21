@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/chat-message/v1",
+  "title": "ChatMessage",
+  "description": "One turn of a conversation held against a library: what was asked, or what was answered, and for an answer the chunks it was grounded on. The sources are pointers with enough of the text to recognise them — never the chunk itself, which stays with the asset it came from.",
+  "type": "object",
+  "required": [
+    "role",
+    "content"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The record's own id in the system that holds it."
+    },
+    "session": {
+      "type": "string",
+      "description": "The session the turn belongs to, as the system that owns the session names it. Absent on rows written before turns were scoped."
+    },
+    "role": {
+      "type": "string",
+      "enum": [
+        "user",
+        "assistant"
+      ],
+      "description": "Who spoke. Two values: a person asks and the model answers, and nothing else writes a turn."
+    },
+    "content": {
+      "type": "string",
+      "description": "What was said. The question as typed, or the answer as generated."
+    },
+    "sources": {
+      "type": "array",
+      "description": "The chunks the answer was grounded on, in relevance order. Absent on a question, and empty on an answer that was grounded on nothing.",
+      "items": {
+        "$ref": "common.v1.json#/$defs/ragSource"
+      }
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the turn was recorded. The only ordering the conversation has."
+    }
+  }
+}

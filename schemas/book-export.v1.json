@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/book-export/v1",
+  "title": "BookExport",
+  "description": "One rendering of a book into a file somebody can hand over — a pdf, an epub, a docx. A pointer and a state, never the file: the bytes live in the store that rendered them, and this says which store, under which key, and whether it finished.",
+  "type": "object",
+  "required": [
+    "book",
+    "format"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The record's own id in the system that holds it."
+    },
+    "book": {
+      "type": "string",
+      "description": "The id of the book that was rendered, in the system that holds the book."
+    },
+    "format": {
+      "type": "string",
+      "enum": [
+        "pdf_ebook",
+        "pdf_print",
+        "epub",
+        "docx"
+      ],
+      "description": "What was rendered. A pdf for reading on a screen and a pdf for a printer are two formats, not one: the page, the bleed and the margins differ."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "queued",
+        "processing",
+        "done",
+        "failed"
+      ],
+      "description": "How the rendering went. The file is only there to fetch once this says done."
+    },
+    "file": {
+      "$ref": "common.v1.json#/$defs/storedFile",
+      "description": "The rendered file, where it is kept and how big it is. Absent until the rendering says done."
+    },
+    "errorMessage": {
+      "type": "string",
+      "description": "Why the rendering failed, in the words of whoever rendered it. Present only when it did."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the export was asked for, which is not when the file was ready."
+    },
+    "completedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the rendering finished, whether it succeeded or failed."
+    }
+  }
+}

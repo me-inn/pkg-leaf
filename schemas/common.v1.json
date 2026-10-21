@@ -92,6 +92,130 @@
       "additionalProperties": {
         "type": "string"
       }
+    },
+    "embedding": {
+      "type": "array",
+      "description": "A semantic vector of whatever it hangs on. Derived, and meaningful only to the model and the dimension that produced it, so it may well not travel: a reader holding another model recomputes it from the text rather than trusting this one. No length is fixed here, because the length is the embedding model's and changes with it.",
+      "items": {
+        "type": "number"
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Whatever the producer recorded about the thing, as it read it. The keys belong to whoever wrote them — a format, an extractor, a splitter — so none are fixed here and no reader should expect a particular one."
+    },
+    "assetType": {
+      "type": "string",
+      "title": "AssetType",
+      "enum": [
+        "image",
+        "video",
+        "document"
+      ],
+      "description": "What kind of thing an asset is, which decides which pipeline reads it. A document covers an article, a PDF, or raw text."
+    },
+    "processingStatus": {
+      "type": "string",
+      "title": "ProcessingStatus",
+      "enum": [
+        "pending",
+        "processing",
+        "completed",
+        "failed"
+      ],
+      "description": "Where a pipeline stands on the thing it was given. Which move from which is a rule held beside the type, never in it."
+    },
+    "storedFile": {
+      "type": "object",
+      "title": "StoredFile",
+      "description": "Bytes somebody is keeping, pointed at rather than carried. Never the file itself: the store that holds it holds it, and this says which key to ask under and, while it lasts, where it can be fetched. Nothing is required, because a file can be known by its key before any address has been issued for it, and served by an address before anybody recorded a key.",
+      "additionalProperties": false,
+      "properties": {
+        "storageKey": {
+          "type": "string",
+          "description": "Where the bytes sit in the store that holds them. The lasting handle, meaningful only to that store: a reader asks the store, never resolves the key itself."
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Where the file can be fetched right now. Often signed and short-lived, so it is read at the moment of use and never kept as the address of the file."
+        },
+        "sizeBytes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "How big it is, so whoever is about to fetch it knows what they are asking for."
+        }
+      }
+    },
+    "ragSource": {
+      "type": "object",
+      "title": "RagSource",
+      "description": "One retrieved chunk an answer leaned on, as it was at the time of the answer. A pointer plus what a person needs to judge it — never the chunk, which stays with the asset it came from — so the citation still reads once the chunk has changed.",
+      "required": [
+        "asset",
+        "chunk"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "asset": {
+          "type": "string",
+          "description": "The asset the chunk came from, as the system that owns the asset names it."
+        },
+        "chunk": {
+          "type": "string",
+          "description": "The chunk itself, as the system that owns the chunk names it."
+        },
+        "score": {
+          "type": "number",
+          "description": "How close the chunk sat to the question, as the retrieval scored it. Comparable inside one search, not across searches: the scale belongs to the model that searched."
+        },
+        "chunkType": {
+          "type": "string",
+          "description": "Which part of the asset the chunk is — a summary, a transcript, a block of article text. Free text: the vocabulary belongs to whoever chunks."
+        },
+        "excerpt": {
+          "type": "string",
+          "description": "The opening of the chunk, carried so a person can see what was cited without fetching it."
+        },
+        "assetTitle": {
+          "type": "string",
+          "description": "What the parent asset was called when the answer was written. Kept as a copy on purpose: a citation should still read after the asset is retitled."
+        },
+        "thumbnailUrl": {
+          "type": "string",
+          "description": "A picture of the parent asset, when the system that serves it offers one. Derived, and resolvable only against the deploy that built it."
+        }
+      }
+    },
+    "creativeReading": {
+      "type": "object",
+      "title": "CreativeReading",
+      "description": "What a model made of a piece of work: how it sat against the voice it was written for, how it fitted the channel it was written into, and why. About the work, never about whoever asked for it — nothing here is said about an actor, so none of it is testimony.",
+      "required": [
+        "brandVoiceScore",
+        "channelFitScore",
+        "overallScore",
+        "reasoning"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "brandVoiceScore": {
+          "type": "number",
+          "description": "How close the work came to the voice it was written for, from 0 to 1. The range is what the scorer produces, and keeping a number inside it is the job of the code that writes the record."
+        },
+        "channelFitScore": {
+          "type": "number",
+          "description": "How well the work fitted the channel it was written into, from 0 to 1, on the same scale."
+        },
+        "overallScore": {
+          "type": "number",
+          "description": "The single number carried alongside the two others, from 0 to 1. Stated rather than derived here: how the scorer weighed voice against fit is its own, and recomputing it elsewhere would invent a weighting nobody agreed to."
+        },
+        "reasoning": {
+          "type": "string",
+          "description": "Why those numbers, in the scorer's own words. Kept because a number with no account of itself cannot be argued with."
+        }
+      }
     }
   }
 }

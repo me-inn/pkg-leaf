@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/repurpose-ready/v1",
+  "type": "object",
+  "title": "RepurposeReady",
+  "description": "The shorter pieces were written and are handed over in full, for the same reason a generation is. Keys are snake_case, not the camelCase the rest of leaf uses: this travels inside a Liquid envelope, whose own fields (event_id, occurred_at, event_type, owner_unit_ref) are snake_case and pinned byte-exact by signed golden vectors. The shape follows the wire.",
+  "required": [
+    "job_id",
+    "session_id",
+    "formats"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "job_id": {
+      "type": "string",
+      "description": "The job the work was done under, which is what the asker was waiting on."
+    },
+    "session_id": {
+      "type": "string",
+      "description": "The working session it was done in."
+    },
+    "formats": {
+      "type": "object",
+      "description": "What came out, keyed by the format that was asked for — hooks, captions, and the rest. A format that was asked for and produced nothing is simply not here.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}

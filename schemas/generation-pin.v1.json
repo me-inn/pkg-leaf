@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/generation-pin/v1",
+  "title": "GenerationPin",
+  "description": "A session holding on to a generation: kept near, so it is found again. An edge and not a column, because being pinned is not a property of the generation — the same generation is pinned in one session and not in another, and a column would make one session's opinion look like the thing's own.",
+  "type": "object",
+  "required": [
+    "generation",
+    "session"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The record's own id in the system that holds it."
+    },
+    "generation": {
+      "type": "string",
+      "description": "The generation being held on to, by its id in the system that holds it."
+    },
+    "session": {
+      "type": "string",
+      "description": "The working session holding on to it, by that session's id in the system that holds it. That a session pins a generation at most once is the pinning system's rule, not a constraint of this shape."
+    },
+    "pinnedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When it was pinned."
+    }
+  }
+}

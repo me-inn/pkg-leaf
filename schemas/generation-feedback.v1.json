@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/generation-feedback/v1",
+  "title": "GenerationFeedback",
+  "description": "What somebody did with a generated piece when it was handed to them: took it, threw it away, or rewrote it. An act rather than an opinion — the rewrite is the feedback, and it is the one signal that says what good would have looked like.",
+  "type": "object",
+  "required": [
+    "generation",
+    "action"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The record's own id in the system that holds it."
+    },
+    "generation": {
+      "type": "string",
+      "description": "The id of the generated piece this was done to, in the system that owns it."
+    },
+    "session": {
+      "type": "string",
+      "description": "The id of the working session it happened in, in the system that holds it. Not a person: a session says the acts came from one sitting, and whether anybody is named is the holding system's business."
+    },
+    "action": {
+      "type": "string",
+      "enum": [
+        "approved",
+        "rejected",
+        "edited"
+      ],
+      "description": "What they did with it."
+    },
+    "editedOutput": {
+      "type": "string",
+      "description": "The piece as they rewrote it. Present when the action was edited; that it must be is a rule the writing system keeps, not a shape."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When they did it."
+    }
+  }
+}

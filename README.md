@@ -74,11 +74,31 @@ inside. The generated file is untouchable.
 Authentication secrets belong to whoever authenticates: a shared shape is read
 by many systems, and a secret inside it would be a secret in all of them.
 
+## Events follow the wire
+
+Every shape here is camelCase except the event ones — `creative-event` and the
+fifteen payloads it names. Those are snake_case, because they travel inside a
+Liquid envelope whose own fields (`event_id`, `occurred_at`, `event_type`,
+`owner_unit_ref`) are snake_case and pinned byte-exact by signed golden
+vectors. A schema that renamed the keys would describe traffic that does not
+exist, and the systems already reading that traffic would have to change for
+nothing. The shape follows the wire, not the other way round.
+
+That is why `ragSource` in `common.v1` is not shared with
+`rag-result-ready`: same fields, different serialisation, so the event writes
+its own.
+
 ## Versioning
 
 A new schema never edits an old one: `organization.v2.json` is born beside
 `organization.v1.json`. Old data stays readable, and nothing in production
 breaks because somebody added a field.
+
+**`generate.sh` only reads `schemas/*.v1.json`.** A `v2` written today produces
+no types in any language and cannot be imported by anybody — making the
+generator version-aware, and deciding how two versions of one concept appear
+in the entry points, is work that has not been done. Until it is, there is one
+version of everything.
 
 ## Using it
 

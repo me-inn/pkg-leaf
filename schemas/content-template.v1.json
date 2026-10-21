@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/content-template/v1",
+  "title": "ContentTemplate",
+  "description": "A saved starting point for generating something: what kind of piece, for which channel and objective, with the standing instructions to use. Settings somebody wants back, not a piece of content — nothing generated is kept here.",
+  "type": "object",
+  "required": [
+    "name",
+    "generationType"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The record's own id in the system that holds it."
+    },
+    "session": {
+      "type": "string",
+      "description": "The session the template belongs to, as the system that owns the session names it. Optional: scoping a template to a working session is how Creative Flow holds it, not part of what it is, and a system without sessions must be able to carry the same shape."
+    },
+    "name": {
+      "type": "string",
+      "description": "What the person called it, so they recognise it in a list."
+    },
+    "generationType": {
+      "type": "string",
+      "description": "What kind of piece it produces. Free text: the names belong to the generation flow, which adds to them.",
+      "examples": [
+        "social_copy",
+        "creative_brief",
+        "campaign_angles",
+        "short_video_script",
+        "carousel_copy"
+      ]
+    },
+    "channel": {
+      "type": "string",
+      "description": "Where the piece is meant to run, in the words of whoever saved the template. Free text everywhere it appears: the vocabulary belongs to whoever publishes."
+    },
+    "objective": {
+      "type": "string",
+      "description": "What the piece is meant to do. Free text, for the same reason as channel."
+    },
+    "instructions": {
+      "type": "string",
+      "description": "The standing instructions to apply, in the person's own words. The template's substance: everything else only files it."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the template was saved."
+    }
+  }
+}

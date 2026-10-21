@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/asset-ingest-requested/v1",
+  "type": "object",
+  "title": "AssetIngestRequested",
+  "description": "Somebody put a file in somewhere else and wants it read. The bytes are already in the store; only the two ids travel. Keys are snake_case, not the camelCase the rest of leaf uses: this travels inside a Liquid envelope, whose own fields (event_id, occurred_at, event_type, owner_unit_ref) are snake_case and pinned byte-exact by signed golden vectors. The shape follows the wire.",
+  "required": [
+    "asset_id",
+    "job_id"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "asset_id": {
+      "type": "string",
+      "description": "The asset to read, in the system that holds it."
+    },
+    "job_id": {
+      "type": "string",
+      "description": "The job to report the reading against. Written by whoever asked, so the asker can follow the work without waiting for a reply."
+    }
+  }
+}

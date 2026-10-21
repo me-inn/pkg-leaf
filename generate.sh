@@ -24,8 +24,13 @@ for schema in schemas/*.v1.json; do
     --visibility public --derive-debug --derive-clone -o "generated/rust/${file}.rs" "$schema"
   $QUICKTYPE --src-lang schema --top-level "$name" --lang typescript \
     --just-types --prefer-unions -o "generated/typescript/${file}.ts" "$schema"
+  # Underscores, not the schema's hyphens. Dart, Rust and TypeScript are read
+  # by path and a hyphen in a filename is fine there; Python reads by module
+  # name, and `from .ai-job import AiJob` is a SyntaxError — it parses as a
+  # subtraction. Nothing caught this while every schema was one word; the first
+  # two-word one broke `from leaf import Notice` for the whole package.
   $QUICKTYPE --src-lang schema --top-level "$name" --lang python \
-    --python-version 3.7 -o "generated/python/${file}.py" "$schema"
+    --python-version 3.7 -o "generated/python/${file//-/_}.py" "$schema"
 done
 
 # The entry point, read back out of what was just generated rather than listed
@@ -67,7 +72,12 @@ print('// the contract.')
 for stem in sorted(exported):
     parts = []
     for name in exported[stem]:
-        if name == top[stem]:
+        # Case-insensitive: quicktype normalises acronyms, so the top-level type
+        # of ai-job is AIJob and of asset-url-ingest-requested is
+        # AssetURLIngestRequested. Compared exactly, neither matched the name
+        # computed from the filename, and both fell through to the prefixing
+        # branch below — which exported AssetUrlIngestRequestedAssetURLIngestRequested.
+        if name.lower() == top[stem].lower():
             parts.append(name)
         elif name in SHARED:
             # Once, from its home. Everywhere else it is the same type again.
@@ -85,7 +95,7 @@ PYTHON
 # for the same reason as the TypeScript one: a hand-written list is a list
 # that forgets a schema. Each module's top-level class is the schema's name.
 python3 - "$BANNER" <<'PYTHON' > generated/python/__init__.py
-import sys, glob, os
+import re, sys, glob, os
 banner = sys.argv[1]
 print(f'# {banner}')
 print()
@@ -95,7 +105,19 @@ for path in sorted(glob.glob('generated/python/*.py')):
     stem = os.path.basename(path)[:-3]
     if stem == '__init__':
         continue
-    name = ''.join(w.capitalize() for w in stem.split('-'))
+    # Read the class name back out of the file, the way the TypeScript entry
+    # point above does, instead of recomputing it from the filename. quicktype
+    # normalises acronyms — it was handed --top-level AiJob and wrote AIJob —
+    # so a recomputed name is a name that is sometimes wrong, and wrong here
+    # means the package does not import at all.
+    #
+    # Matched case-insensitively against the name the filename implies, so the
+    # top-level class is picked and never one of the nested ones.
+    wanted = ''.join(w.capitalize() for w in re.split(r'[-_]', stem))
+    classes = re.findall(r'^class (\w+)', open(path).read(), re.M)
+    name = next((c for c in classes if c.lower() == wanted.lower()), None)
+    if name is None:
+        sys.exit(f'{path}: no top-level class matching {wanted!r} (found {classes})')
     names.append(name)
     print(f'from .{stem} import {name}')
 print()

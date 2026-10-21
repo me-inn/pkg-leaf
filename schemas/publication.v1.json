@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/publication/v1",
+  "title": "Publication",
+  "description": "A book put out on one store, and what that store calls it. An edge between a title and a platform: the same book on three stores is three of these, each with its own listing, its own state and its own rate.",
+  "type": "object",
+  "required": [
+    "book",
+    "platform"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The record's own id in the system that holds it."
+    },
+    "book": {
+      "type": "string",
+      "description": "The id of the book being put out, in the system that holds the book."
+    },
+    "platform": {
+      "type": "string",
+      "enum": [
+        "amazon_kdp",
+        "google_play",
+        "apple_books",
+        "kobo",
+        "manual"
+      ],
+      "description": "Where it is being put out. Manual is for a channel nobody here talks to, recorded so the title's whereabouts stay complete."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "submitted",
+        "live",
+        "rejected",
+        "unpublished"
+      ],
+      "description": "Where the listing stands on that store. Read from the store, not decided here."
+    },
+    "externalId": {
+      "type": "string",
+      "description": "What the store calls this listing — its ASIN, its product id. The only handle the store will answer to."
+    },
+    "listingUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "The page a reader buys it on."
+    },
+    "royaltyRate": {
+      "type": "number",
+      "description": "The author's share, as a fraction: 0.7 is seventy per cent. A fraction and not a percentage so nobody has to guess which was meant."
+    },
+    "estimatedMonthlyRoyalty": {
+      "type": "number",
+      "description": "What this listing is expected to pay in a month, in the currency the store settles in. An estimate carried for planning, never an amount owed."
+    },
+    "notes": {
+      "type": "string",
+      "description": "Anything about this listing worth writing down, in the words of whoever put it out."
+    },
+    "submittedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When it was sent to the store, which is not when the store accepted it."
+    },
+    "publishedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the listing went live on the store."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

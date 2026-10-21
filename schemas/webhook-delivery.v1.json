@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/webhook-delivery/v1",
+  "title": "WebhookDelivery",
+  "description": "One attempt to call a webhook: what was sent, what came back, and how many tries it took. A record of its own rather than a column on the subscription, because one subscription has many deliveries and each outlives the state of the next. No signature travels here, for the same reason none travels on the subscription.",
+  "type": "object",
+  "required": [
+    "webhook",
+    "event"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The record's own id in the system that holds it."
+    },
+    "webhook": {
+      "type": "string",
+      "description": "The subscription this attempt was made for, as the system that holds it names it."
+    },
+    "event": {
+      "type": "string",
+      "description": "Which event triggered the call. Free text, matching one of the names on the subscription.",
+      "examples": [
+        "generation.completed",
+        "content.status_changed"
+      ]
+    },
+    "payload": {
+      "type": "object",
+      "description": "The body that was posted. Open on purpose: its keys belong to whoever emits the event, and the delivery only records what went out."
+    },
+    "status": {
+      "type": "string",
+      "description": "Where the attempt stands. Free text rather than an enum: the source has no declared set, only a default of pending.",
+      "examples": [
+        "pending",
+        "success",
+        "failed"
+      ]
+    },
+    "httpStatus": {
+      "type": "integer",
+      "description": "The status code the endpoint answered with. Absent when the call never got an answer — a timeout and a 500 are different failures."
+    },
+    "responseBody": {
+      "type": "string",
+      "description": "What the endpoint wrote back, kept as given. Read when a delivery has to be explained, never parsed."
+    },
+    "attempts": {
+      "type": "integer",
+      "minimum": 0,
+      "default": 0,
+      "description": "How many times this delivery has been tried."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the attempt was recorded, which is not when the event happened."
+    }
+  }
+}

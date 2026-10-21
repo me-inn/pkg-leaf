@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/generation-variant/v1",
+  "title": "GenerationVariant",
+  "description": "A second take on a generation, asked for as its own piece of work. It says which generation it came from and which job was run for it — the text it produced belongs to that job's own record, not to this edge.",
+  "type": "object",
+  "required": [
+    "parentGeneration",
+    "job"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The record's own id in the system that holds it."
+    },
+    "parentGeneration": {
+      "type": "string",
+      "description": "The generation this is a variant of, by its id in the system that holds it."
+    },
+    "job": {
+      "type": "string",
+      "description": "The processing job run to produce it, by its id in the system that runs it. The variant is the link between the two; neither side carries the other."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the variant was asked for, which is not when the job finished."
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/derivative-created/v1",
+  "type": "object",
+  "title": "DerivativeCreated",
+  "description": "Content was written from assets already put in. The relay understands this type natively, which is why it exists beside generation.ready: this one says a derivative was made, that one hands over what it says. Keys are snake_case, not the camelCase the rest of leaf uses: this travels inside a Liquid envelope, whose own fields (event_id, occurred_at, event_type, owner_unit_ref) are snake_case and pinned byte-exact by signed golden vectors. The shape follows the wire.",
+  "required": [
+    "content_id",
+    "template",
+    "session_id"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "content_id": {
+      "type": "string",
+      "description": "The generation that was made."
+    },
+    "template": {
+      "type": "string",
+      "description": "Which template it was written from. Free text: the templates belong to whoever generates."
+    },
+    "session_id": {
+      "type": "string",
+      "description": "The working session it was made in."
+    },
+    "source_assets": {
+      "type": "array",
+      "description": "The assets it was written from, by id. Absent when nothing was drawn on.",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

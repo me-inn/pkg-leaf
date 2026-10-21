@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/session-quota/v1",
+  "title": "SessionQuota",
+  "description": "How much a work session may spend in a day. Its own record rather than fields on the session, because the limits are set by whoever runs the system and the session is written by whoever uses it.",
+  "type": "object",
+  "required": [
+    "session",
+    "maxGenerationsPerDay",
+    "maxRepurposePerDay"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The record's own id in the system that holds it."
+    },
+    "session": {
+      "type": "string",
+      "description": "The work session the limits apply to, as the system that owns the session names it. One quota per session."
+    },
+    "person": {
+      "type": "string",
+      "description": "The wallet, handle, or id under localIds of whoever owns the quota. Carried so the holder of a session id is not by itself the person allowed to change the limits; absent for a session nobody has signed in for."
+    },
+    "maxGenerationsPerDay": {
+      "type": "integer",
+      "description": "Generations allowed in a day."
+    },
+    "maxRepurposePerDay": {
+      "type": "integer",
+      "description": "Repurposes allowed in a day."
+    }
+  }
+}

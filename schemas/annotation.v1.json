@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/annotation/v1",
+  "title": "Annotation",
+  "description": "A note somebody left on a book, and where in the text they left it. The note is the record; the passage it points at stays in the chapter, quoted here only so the note still reads once the text around it has moved.",
+  "type": "object",
+  "required": [
+    "book",
+    "note",
+    "annotationType",
+    "resolved"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The record's own id in the system that holds it."
+    },
+    "book": {
+      "type": "string",
+      "description": "The id of the book it was left on, in the system that owns it."
+    },
+    "chapter": {
+      "type": "string",
+      "description": "The id of the chapter it was left on, in the system that owns it. Absent for a note about the book as a whole."
+    },
+    "note": {
+      "type": "string",
+      "description": "What they wrote."
+    },
+    "annotationType": {
+      "type": "string",
+      "enum": [
+        "note",
+        "question",
+        "todo",
+        "ai_suggestion",
+        "beta_feedback"
+      ],
+      "description": "What kind of remark it is, which decides who it is addressed to: a todo waits on the author, a beta_feedback came from a reader, an ai_suggestion was not written by a person at all."
+    },
+    "textSelection": {
+      "type": "string",
+      "description": "The passage as it read when the note was made. Kept verbatim because the anchors drift once the chapter is edited, and the quote is what survives that."
+    },
+    "anchorStart": {
+      "type": "integer",
+      "description": "Where the passage starts in the chapter text, counted in characters from the beginning. Valid against the revision that was open at the time."
+    },
+    "anchorEnd": {
+      "type": "integer",
+      "description": "Where the passage ends, counted the same way."
+    },
+    "resolved": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the note has been dealt with. It stays on the record once resolved; nothing here is removed by being answered."
+    },
+    "createdBy": {
+      "type": "string",
+      "description": "The wallet, handle, or id under localIds of whoever left it. Absent for a note no person wrote."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

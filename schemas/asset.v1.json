@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/asset/v1",
+  "title": "Asset",
+  "description": "Something somebody put in — a file uploaded or a page ingested from a URL — and everything a machine later said about it. The bytes never travel: what travels is where they are kept, what kind of thing they are, and the reading a pipeline made of them.",
+  "type": "object",
+  "required": [
+    "originalFilename",
+    "contentType",
+    "fileSize",
+    "storageKey",
+    "assetType",
+    "processingStatus"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The record's own id in the system that holds it."
+    },
+    "owner": {
+      "type": "string",
+      "description": "The wallet, handle, or id under localIds of whoever the asset belongs to. Absent for an asset that was put in before anybody claimed it."
+    },
+    "session": {
+      "type": "string",
+      "description": "The id of the working session it was put in during, in the system that owns the session. Absent when it was not put in through one."
+    },
+    "sourceType": {
+      "type": "string",
+      "enum": [
+        "upload",
+        "url"
+      ],
+      "description": "How it arrived: handed over as a file, or fetched from an address."
+    },
+    "sourceUrl": {
+      "type": "string",
+      "description": "The address it was fetched from, when it was fetched. Kept even after ingestion, because the copy and the original drift apart."
+    },
+    "originalFilename": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The name the file had when it arrived. Never the name it is stored under."
+    },
+    "contentType": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The media type, as declared on arrival."
+    },
+    "fileSize": {
+      "type": "integer",
+      "description": "Size in bytes."
+    },
+    "storageKey": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Where the bytes sit in the store that holds them. Meaningful only to that store; a reader asks it, never resolves the key itself."
+    },
+    "assetType": {
+      "$ref": "common.v1.json#/$defs/assetType",
+      "description": "What kind of thing it is, which decides which pipeline reads it."
+    },
+    "processingStatus": {
+      "$ref": "common.v1.json#/$defs/processingStatus",
+      "description": "Where the pipeline stands on this asset."
+    },
+    "processingStage": {
+      "type": "string",
+      "enum": [
+        "metadata_extraction",
+        "ai_enrichment",
+        "embedding_indexing",
+        "completed"
+      ],
+      "description": "Which step it was on. Read together with the status, it says where a run stopped: failed at ai_enrichment is a different repair from failed at embedding_indexing. Absent before the first step runs."
+    },
+    "aiTitle": {
+      "type": "string",
+      "description": "A title a machine gave it, which is not the filename and not a title a person wrote."
+    },
+    "aiDescription": {
+      "type": "string",
+      "description": "What a machine said the asset is."
+    },
+    "aiSummary": {
+      "type": "string",
+      "description": "The longer reading a machine made of it."
+    },
+    "aiTags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Tags a machine put on it. Free text: the vocabulary belongs to whoever enriched the asset, not to this shape."
+    },
+    "thumbnail": {
+      "$ref": "common.v1.json#/$defs/storedFile",
+      "description": "A preview image made from the asset. A second file the asset owns, not the asset itself: it is derived, and absent until something made one."
+    },
+    "transcriptText": {
+      "type": "string",
+      "description": "What was said in it, for an asset that is heard rather than read."
+    },
+    "visualSummary": {
+      "type": "string",
+      "description": "What is seen in it, for an asset that is looked at rather than read."
+    },
+    "embedding": {
+      "$ref": "common.v1.json#/$defs/embedding",
+      "description": "The semantic vector of the whole asset."
+    },
+    "metadata": {
+      "$ref": "common.v1.json#/$defs/metadata",
+      "description": "Raw technical metadata as the extractor read it off the file — dimensions, duration, codec, whatever the format carries."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the asset was recorded, which is not when the file was made."
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}
