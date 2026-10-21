@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/performance-signal/v1",
+  "title": "PerformanceSignal",
+  "description": "One number a platform reported about one generated piece, at one moment. A reading and not a total: a second reading of the same metric is another record, so what a piece did over time is the series and never a field that gets overwritten.",
+  "type": "object",
+  "required": [
+    "generation",
+    "platform",
+    "metricName",
+    "metricValue"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The record's own id in the system that holds it."
+    },
+    "generation": {
+      "type": "string",
+      "description": "The id of the generated piece the number is about, in the system that owns it."
+    },
+    "platform": {
+      "type": "string",
+      "description": "Where the piece ran and who counted. Free text: the names belong to the platforms, and a list here would be out of date the week somebody publishes somewhere new."
+    },
+    "metricName": {
+      "type": "string",
+      "description": "What was counted, in the platform's own word for it. Free text for the same reason, and never translated on the way in: a platform's reach is not another platform's reach."
+    },
+    "metricValue": {
+      "type": "number",
+      "description": "The number, as reported. No unit travels with it — the unit is whatever the platform means by that metric name."
+    },
+    "recordedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the reading was taken, which is not when the piece was published and not when the platform computed it."
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/asset-relation/v1",
+  "title": "AssetRelation",
+  "description": "One asset pointing at another, and what the pointing means. An edge rather than a column: an asset has no single related asset, and each kind of tie — one derived from another, one resembling another — would otherwise add a field to a thing it was never an attribute of.",
+  "type": "object",
+  "required": [
+    "fromAsset",
+    "toAsset",
+    "relationType"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The record's own id in the system that holds it."
+    },
+    "fromAsset": {
+      "type": "string",
+      "description": "The id of the asset the tie starts at, in the system that owns it. The direction carries the meaning: derived_from read the other way is false."
+    },
+    "toAsset": {
+      "type": "string",
+      "description": "The id of the asset the tie points at, in the system that owns it."
+    },
+    "relationType": {
+      "type": "string",
+      "description": "What the tie means, in the words of whoever drew it. Free text: the vocabulary belongs to the system that relates them.",
+      "examples": [
+        "similar",
+        "derived_from"
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

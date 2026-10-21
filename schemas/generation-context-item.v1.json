@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/generation-context-item/v1",
+  "title": "GenerationContextItem",
+  "description": "One piece of material that was put in front of the model for a generation, and where it came from. Written down because the source can change afterwards: this says what was actually read, in the order it was read.",
+  "type": "object",
+  "required": [
+    "generation",
+    "sourceType",
+    "sourceId",
+    "content",
+    "rank"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The record's own id in the system that holds it."
+    },
+    "generation": {
+      "type": "string",
+      "description": "The generation this was given to, by its id in the system that holds it."
+    },
+    "sourceType": {
+      "type": "string",
+      "minLength": 1,
+      "description": "What kind of thing the material came from. Free text: the kinds belong to whatever the retrieving system can reach.",
+      "examples": [
+        "asset_chunk",
+        "brand_doc"
+      ]
+    },
+    "sourceId": {
+      "type": "string",
+      "description": "The id of that thing, in the system that owns it. Paired with sourceType, which says what kind of id it is."
+    },
+    "content": {
+      "type": "string",
+      "description": "The material as it was handed to the model. A copy on purpose — the source may be edited or deleted later, and this is what was read."
+    },
+    "rank": {
+      "type": "integer",
+      "description": "Its place in the order the items were assembled in, counting from the first. Position, not score."
+    },
+    "similarityScore": {
+      "type": "number",
+      "description": "How close the retrieval judged it to the ask. Absent when the item was not chosen by similarity. The scale belongs to whichever retrieval produced it."
+    }
+  }
+}

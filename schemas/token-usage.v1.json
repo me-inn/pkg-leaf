@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/token-usage/v1",
+  "title": "TokenUsage",
+  "description": "What one call to a model cost: who made it, which model answered, how many tokens each way, and the money. Separate from the credit ledger — credits are what the customer is charged, tokens are what the call actually consumed, and the two move for different reasons.",
+  "type": "object",
+  "required": [
+    "provider",
+    "model",
+    "callType",
+    "inputTokens",
+    "outputTokens",
+    "costUsd"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The record's own id in the system that holds it."
+    },
+    "person": {
+      "type": "string",
+      "description": "The wallet, handle, or id under localIds of whoever the call was made for. Absent for a call nobody is signed in behind, such as a background pass."
+    },
+    "session": {
+      "type": "string",
+      "description": "The work session the call belongs to, as the system that owns the session names it. Absent when it belongs to none."
+    },
+    "job": {
+      "type": "string",
+      "description": "The id of the job that made the call, in the system that owns jobs."
+    },
+    "provider": {
+      "type": "string",
+      "description": "Who served the call. Free text: providers are added without the shape changing.",
+      "examples": [
+        "gemini",
+        "openai"
+      ]
+    },
+    "model": {
+      "type": "string",
+      "description": "The model name as the provider gives it, verbatim. Kept exactly because the price was read against this string."
+    },
+    "callType": {
+      "type": "string",
+      "description": "What the call was for, in the words of the system that made it. Free text: the kinds of call belong to that system.",
+      "examples": [
+        "generate_creative",
+        "rag",
+        "repurpose",
+        "enrich",
+        "embed",
+        "detect_language",
+        "translate"
+      ]
+    },
+    "inputTokens": {
+      "type": "integer",
+      "description": "Tokens sent."
+    },
+    "outputTokens": {
+      "type": "integer",
+      "description": "Tokens returned."
+    },
+    "costUsd": {
+      "type": "number",
+      "description": "What the call cost in US dollars, worked out when it was written from the prices in force then. Recorded rather than recomputed: prices change, and what was spent does not."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the call was recorded."
+    }
+  }
+}

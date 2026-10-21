@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/generation/v1",
+  "title": "Generation",
+  "description": "One thing a model wrote when somebody asked for it: what was asked, what it was given to read, and the text that came out. The assets it read are named by id and stay where they are — this record is the asking, not a copy of the material.",
+  "type": "object",
+  "required": [
+    "generationType"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The record's own id in the system that holds it."
+    },
+    "session": {
+      "type": "string",
+      "description": "The working session it was generated in, by that session's id in the system that holds it. A session, not a person: who was at the keyboard is the session's own business. Absent when it was generated outside one."
+    },
+    "generationType": {
+      "type": "string",
+      "minLength": 1,
+      "description": "What kind of thing was asked for. Free text: the vocabulary grows with every surface that asks, so it is not closed here.",
+      "examples": [
+        "social_copy",
+        "creative_brief",
+        "campaign_angles",
+        "storyboard_draft",
+        "shot_list",
+        "caption_variants",
+        "short_video_script",
+        "carousel_copy",
+        "repurpose_request"
+      ]
+    },
+    "assetIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The assets the model was given to read, by their ids in the system that holds them. Ids, never the material: the asset is somebody else's record."
+    },
+    "instructions": {
+      "type": "string",
+      "description": "What the person asked for, in their own words, before anything was assembled around it."
+    },
+    "output": {
+      "type": "string",
+      "description": "The text the model produced. Empty while the generation exists and has produced nothing yet."
+    },
+    "modelUsed": {
+      "type": "string",
+      "description": "Which model wrote it, under the name its provider gives it. Recorded so a later reading knows what produced the text — never a key, never a provider credential."
+    },
+    "channel": {
+      "type": "string",
+      "description": "Where the text was meant to go. Free text: the channels belong to whoever publishes, not to this shape."
+    },
+    "objective": {
+      "type": "string",
+      "description": "What the text was meant to achieve. Free text, for the same reason as channel.",
+      "examples": [
+        "engagement"
+      ]
+    },
+    "promptUsed": {
+      "type": "string",
+      "description": "The prompt actually sent, after the instructions and the context were assembled into one. Kept because the instructions alone do not reproduce it."
+    },
+    "contentStatus": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "approved",
+        "published",
+        "archived"
+      ],
+      "default": "draft",
+      "description": "Where the text stands. Which status may follow which is a rule held by the system that moves it, not a constraint of this shape."
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Labels somebody put on it. Free text, theirs."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the generation was recorded."
+    }
+  }
+}

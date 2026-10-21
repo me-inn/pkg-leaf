@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/repurpose-score/v1",
+  "title": "RepurposeScore",
+  "description": "The same reading as a creative score, but of work a job turned into one other format. It is its own record and not a column on the job: one job produces several formats, and each is read on its own.",
+  "type": "object",
+  "required": [
+    "job",
+    "format",
+    "reading"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The record's own id in the system that holds it."
+    },
+    "job": {
+      "type": "string",
+      "description": "The id of the repurpose job that produced the work, in the system that ran it."
+    },
+    "format": {
+      "type": "string",
+      "enum": [
+        "hooks",
+        "captions",
+        "short_scripts",
+        "carousel_copy",
+        "hashtags",
+        "cta_variants"
+      ],
+      "description": "Which of the job's outputs this score is for. One score per format, so the job's own id does not identify a record."
+    },
+    "reading": {
+      "$ref": "common.v1.json#/$defs/creativeReading",
+      "description": "What the scorer made of that one output. The same shape a creative score carries, read against the channel the format is meant for."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the output was scored, which is not when the job ran."
+    }
+  }
+}

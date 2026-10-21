@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/asset-edit-requested/v1",
+  "type": "object",
+  "title": "AssetEditRequested",
+  "description": "A cut, a resize or a filter somebody wants applied. The original is never changed: the result is a new asset. Keys are snake_case, not the camelCase the rest of leaf uses: this travels inside a Liquid envelope, whose own fields (event_id, occurred_at, event_type, owner_unit_ref) are snake_case and pinned byte-exact by signed golden vectors. The shape follows the wire.",
+  "required": [
+    "job_id",
+    "asset_id"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "job_id": {
+      "type": "string",
+      "description": "The job to report the edit against."
+    },
+    "asset_id": {
+      "type": "string",
+      "description": "The asset to edit, which stays as it is."
+    },
+    "edit_params": {
+      "type": "object",
+      "title": "EditParams",
+      "description": "What to do to it. Every step is optional and they apply together; an empty one copies the asset.",
+      "additionalProperties": false,
+      "properties": {
+        "crop": {
+          "type": "object",
+          "title": "CropParams",
+          "description": "The rectangle to keep, in pixels from the top left of the original.",
+          "required": [
+            "x",
+            "y",
+            "width",
+            "height"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "x": {
+              "type": "integer",
+              "description": "Pixels from the left edge of the original to the left edge of the rectangle."
+            },
+            "y": {
+              "type": "integer",
+              "description": "Pixels from the top edge of the original to the top edge of the rectangle."
+            },
+            "width": {
+              "type": "integer",
+              "description": "How wide the kept rectangle is, in pixels."
+            },
+            "height": {
+              "type": "integer",
+              "description": "How tall the kept rectangle is, in pixels."
+            }
+          }
+        },
+        "resize": {
+          "type": "object",
+          "title": "ResizeParams",
+          "description": "The size to come out at, said either by naming a channel's preset or by giving both sides.",
+          "additionalProperties": false,
+          "properties": {
+            "preset": {
+              "type": "string",
+              "enum": [
+                "ig_feed",
+                "ig_reels",
+                "ig_story",
+                "ig_landscape",
+                "tiktok"
+              ],
+              "description": "A named size belonging to a channel. What each one resolves to is the editor's to know, not this shape's."
+            },
+            "width": {
+              "type": "integer",
+              "description": "How wide to come out, in pixels. Given together with height, instead of a preset."
+            },
+            "height": {
+              "type": "integer",
+              "description": "How tall to come out, in pixels. Given together with width, instead of a preset."
+            }
+          }
+        },
+        "filters": {
+          "type": "object",
+          "title": "FilterParams",
+          "description": "How to treat the image. The four multipliers leave it alone at 1.",
+          "additionalProperties": false,
+          "properties": {
+            "brightness": {
+              "type": "number",
+              "description": "Multiplier on how light it is. Below 1 darkens, above 1 lightens."
+            },
+            "contrast": {
+              "type": "number",
+              "description": "Multiplier on the distance between light and dark. Below 1 flattens, above 1 deepens."
+            },
+            "saturation": {
+              "type": "number",
+              "description": "0 is grey."
+            },
+            "sharpness": {
+              "type": "number",
+              "description": "Multiplier on edge definition. Below 1 softens, above 1 sharpens."
+            },
+            "blur": {
+              "type": "number",
+              "description": "Gaussian sigma. 0 is no blur."
+            },
+            "vignette": {
+              "type": "boolean",
+              "description": "Whether to darken the corners. On or off: how much is the editor's to decide."
+            }
+          }
+        },
+        "trim": {
+          "type": "object",
+          "title": "TrimParams",
+          "description": "The stretch to keep, in seconds from the start. Video only.",
+          "required": [
+            "start_seconds",
+            "end_seconds"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "start_seconds": {
+              "type": "number",
+              "description": "Where the kept stretch begins, in seconds from the start of the original."
+            },
+            "end_seconds": {
+              "type": "number",
+              "description": "Where the kept stretch ends, in seconds from the start of the original."
+            }
+          }
+        }
+      }
+    }
+  }
+}

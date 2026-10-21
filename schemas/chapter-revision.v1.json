@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/chapter-revision/v1",
+  "title": "ChapterRevision",
+  "description": "A chapter's text as it stood at one moment, kept whole rather than as a difference, so an old version reads without replaying the ones after it.",
+  "type": "object",
+  "required": [
+    "chapter",
+    "version",
+    "content"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The record's own id in the system that holds it."
+    },
+    "chapter": {
+      "type": "string",
+      "description": "The id of the chapter this is a revision of, in the system that holds the chapter."
+    },
+    "version": {
+      "type": "integer",
+      "description": "Which revision of that chapter this is, counting up. Ordering comes from this and not from the clock, because two writes can land in the same second."
+    },
+    "content": {
+      "type": "string",
+      "description": "The whole text as it stood, not a difference against the one before."
+    },
+    "wordCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Words in this revision's text."
+    },
+    "changedBy": {
+      "type": "string",
+      "description": "The wallet, handle, or id under localIds of whoever made the change. Absent when it was made by software rather than a person."
+    },
+    "changeType": {
+      "type": "string",
+      "examples": [
+        "author_edit",
+        "ai_rewrite",
+        "ai_expand",
+        "import"
+      ],
+      "description": "What kind of change it was. Free text: the vocabulary belongs to the system that writes the revision."
+    },
+    "changeSummary": {
+      "type": "string",
+      "description": "One line on what changed, so a list of revisions can be read without opening each."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the revision was written down."
+    }
+  }
+}

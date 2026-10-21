@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/generation-version/v1",
+  "title": "GenerationVersion",
+  "description": "The text a generation held at one point in its life. Kept as its own record so editing a generation never loses what it said before — the generation carries the current text, the versions carry the ones it had.",
+  "type": "object",
+  "required": [
+    "generation",
+    "version",
+    "output"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The record's own id in the system that holds it."
+    },
+    "generation": {
+      "type": "string",
+      "description": "The generation this is a version of, by its id in the system that holds it."
+    },
+    "version": {
+      "type": "integer",
+      "description": "Which version this is, counting up within the generation. Ordering is the number's job; whether it may skip or repeat is the writing system's rule."
+    },
+    "output": {
+      "type": "string",
+      "description": "The text as it stood in this version."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this version was written."
+    }
+  }
+}

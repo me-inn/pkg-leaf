@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/credit-transaction/v1",
+  "title": "CreditTransaction",
+  "description": "One movement of credit on an account, written once and never changed. The balance on the account is the sum of these; a row kept after the fact is what makes it possible to say why.",
+  "type": "object",
+  "required": [
+    "account",
+    "amount",
+    "balanceAfter",
+    "operation",
+    "description"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The record's own id in the system that holds it."
+    },
+    "account": {
+      "type": "string",
+      "description": "The id of the account the credit moved on, in the system that holds it."
+    },
+    "amount": {
+      "type": "integer",
+      "description": "Signed: negative spends, positive tops up or refills. One field rather than a direction and a magnitude, so adding them up needs no rules."
+    },
+    "balanceAfter": {
+      "type": "integer",
+      "description": "The balance the moment after this movement was applied. Copied here on purpose: reading a balance as of some past row should not mean replaying the whole ledger."
+    },
+    "operation": {
+      "type": "string",
+      "description": "What caused the movement, in the words of the system that charged for it. Free text: the list of billable operations belongs to that system.",
+      "examples": [
+        "generate",
+        "repurpose",
+        "plan_refill",
+        "manual_topup"
+      ]
+    },
+    "reference": {
+      "type": "string",
+      "description": "The id of the job or generation that caused it, in the system that owns that thing. Absent for a refill or a top-up, which answer to nothing."
+    },
+    "description": {
+      "type": "string",
+      "description": "A line a person can read on a receipt or in support. Written by whoever charged; empty when nobody wrote one."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the movement was recorded."
+    }
+  }
+}

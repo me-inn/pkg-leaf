@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/asset-edit-ready/v1",
+  "type": "object",
+  "title": "AssetEditReady",
+  "description": "An edit was applied and saved as a new asset. Both ids travel, because the point of the event is the pair: the original still stands and this one came from it. Keys are snake_case, not the camelCase the rest of leaf uses: this travels inside a Liquid envelope, whose own fields (event_id, occurred_at, event_type, owner_unit_ref) are snake_case and pinned byte-exact by signed golden vectors. The shape follows the wire.",
+  "required": [
+    "original_asset_id",
+    "content_id",
+    "session_id",
+    "storage_key"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "original_asset_id": {
+      "type": "string",
+      "description": "The asset that was edited, unchanged."
+    },
+    "content_id": {
+      "type": "string",
+      "description": "The new asset the edit became. Named contentId and not assetId so every result event points at its subject under one name."
+    },
+    "session_id": {
+      "type": "string",
+      "description": "The working session the edit was made in."
+    },
+    "storage_key": {
+      "type": "string",
+      "description": "Where the edited bytes sit in the store that holds them. Meaningful only to that store."
+    }
+  }
+}

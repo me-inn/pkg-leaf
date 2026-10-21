@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/ai-job/v1",
+  "title": "AiJob",
+  "description": "A short-lived record of an asynchronous model call — a generation, a retrieval answer, an edit, a repurpose. Separate from job: a job is work done to one asset and reports timing, this is work asked for inside a session and reports an answer. The two are kept apart rather than merged behind a discriminator because they do not agree on what is required or on what is kept.",
+  "type": "object",
+  "required": [
+    "jobType",
+    "status"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The record's own id in the system that holds it. It is what the caller polls with."
+    },
+    "jobType": {
+      "type": "string",
+      "description": "Which kind of call was asked for. Free text: the vocabulary belongs to whoever queues the job, and it grows every time a new flow is added.",
+      "examples": [
+        "generate",
+        "rag",
+        "edit",
+        "repurpose"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "description": "Where the call got to. Free text here, unlike job: the column carries no enum and each flow writes its own words.",
+      "examples": [
+        "pending",
+        "done",
+        "failed"
+      ]
+    },
+    "result": {
+      "type": "object",
+      "description": "What came back, in the shape the job type produces. Left open on purpose: a repurpose result and a retrieval answer have nothing in common, and declaring one shape for both would describe neither.",
+      "additionalProperties": true
+    },
+    "errorMessage": {
+      "type": "string",
+      "description": "What went wrong, as the worker reported it. Read by a person; never parsed."
+    },
+    "session": {
+      "type": "string",
+      "description": "The session the job was asked for, as the system that owns the session names it. It is what keeps one session from reading another's answer. Absent on rows written before jobs were scoped."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the call was queued."
+    }
+  }
+}

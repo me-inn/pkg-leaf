@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/citation-created/v1",
+  "type": "object",
+  "title": "CitationCreated",
+  "description": "An address was fetched and kept as an asset. The address stays in the event because the copy and the page drift apart from that moment. Keys are snake_case, not the camelCase the rest of leaf uses: this travels inside a Liquid envelope, whose own fields (event_id, occurred_at, event_type, owner_unit_ref) are snake_case and pinned byte-exact by signed golden vectors. The shape follows the wire.",
+  "required": [
+    "content_id",
+    "source_url",
+    "session_id"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "content_id": {
+      "type": "string",
+      "description": "The asset the fetched page became."
+    },
+    "source_url": {
+      "type": "string",
+      "description": "The address it was fetched from."
+    },
+    "session_id": {
+      "type": "string",
+      "description": "The working session it was fetched into."
+    }
+  }
+}

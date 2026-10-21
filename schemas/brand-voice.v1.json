@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/brand-voice/v1",
+  "title": "BrandVoice",
+  "description": "A snapshot of what a session has been approving: how much, how well it scored, and which channels and objectives it kept coming back to. Counted once and written down, so the figures a person saw on a day can be shown again on another day without recounting them.",
+  "type": "object",
+  "required": [
+    "approvedCount"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The record's own id in the system that holds it."
+    },
+    "session": {
+      "type": "string",
+      "description": "The session this was counted over, as the system that owns the session names it. Optional: scoping a profile to a working session is how Creative Flow holds it, not part of what it is, and a system without sessions must be able to carry the same shape."
+    },
+    "approvedCount": {
+      "type": "integer",
+      "description": "How many pieces had been approved when the snapshot was taken."
+    },
+    "avgOverallScore": {
+      "type": "number",
+      "description": "The mean of the latest score of each scored generation. Absent when nothing had been scored yet, which is not the same as zero."
+    },
+    "topChannels": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The channels that came up most, most frequent first. A list, whatever a given store serialises it into."
+    },
+    "topObjectives": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The objectives that came up most, most frequent first."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the snapshot was taken. It is what makes the figures readable later: they are true of that moment and of no other."
+    }
+  }
+}

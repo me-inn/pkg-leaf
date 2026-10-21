@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/collection/v1",
+  "title": "Collection",
+  "description": "A named gathering of assets, made by a person because they belong together for a reason no pipeline would find. It holds no assets: it holds the edges that say which ones are in it, and when each was put there.",
+  "type": "object",
+  "required": [
+    "name"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The record's own id in the system that holds it."
+    },
+    "session": {
+      "type": "string",
+      "description": "The id of the working session it was made in, in the system that owns the session. Absent when it was not made through one."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "What it is called, in the words of whoever gathered it."
+    },
+    "description": {
+      "type": "string",
+      "description": "Why these belong together. Written by a person; never derived from what is inside."
+    },
+    "assets": {
+      "type": "array",
+      "description": "The assets in it, each as its own edge: being in a collection is not an attribute of an asset, and the moment it was added belongs to the putting-in, not to either side.",
+      "items": {
+        "type": "object",
+        "required": [
+          "asset"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The edge's own id in the system that holds it."
+          },
+          "asset": {
+            "type": "string",
+            "description": "The id of the asset, in the system that owns it."
+          },
+          "addedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When it was put in, which is not when the asset was recorded."
+          }
+        }
+      }
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

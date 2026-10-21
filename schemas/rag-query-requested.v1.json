@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaf.me-inn/rag-query-requested/v1",
+  "type": "object",
+  "title": "RagQueryRequested",
+  "description": "A question somebody wants answered out of what was put in. Carries the whole question, for the same reason repurpose does. Keys are snake_case, not the camelCase the rest of leaf uses: this travels inside a Liquid envelope, whose own fields (event_id, occurred_at, event_type, owner_unit_ref) are snake_case and pinned byte-exact by signed golden vectors. The shape follows the wire.",
+  "required": [
+    "job_id",
+    "session_id"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "job_id": {
+      "type": "string",
+      "description": "The job to report the answer against, created by the pipeline if it does not exist yet."
+    },
+    "session_id": {
+      "type": "string",
+      "description": "The working session to search in. The question is answered out of that session's material, not out of everything."
+    },
+    "query": {
+      "type": "string",
+      "description": "The question, in natural language. A blank one is not worked."
+    },
+    "top_k": {
+      "type": "integer",
+      "description": "How many chunks to retrieve before answering. Absent leaves it to whoever searches."
+    },
+    "asset_type": {
+      "$ref": "common.v1.json#/$defs/assetType",
+      "description": "Search only this kind of asset. Absent searches all of them."
+    },
+    "language": {
+      "type": "string",
+      "description": "BCP-47 tag of the language to answer in. Detected from the question when absent."
+    },
+    "response_mode": {
+      "type": "string",
+      "enum": [
+        "answer",
+        "rewrite"
+      ],
+      "description": "What to return: an answer grounded in the sources, or only the rewritten text, with nothing around it, for an editor that drops it straight into a document."
+    }
+  }
+}

@@ -1,0 +1,58 @@
+# Generated from the schema in schemas/. Do not edit: CI regenerates this file and fails on any difference. Change the schema and run ./generate.sh.
+
+from dataclasses import dataclass
+from typing import Any, TypeVar, Type, cast
+
+
+T = TypeVar("T")
+
+
+def from_str(x: Any) -> str:
+    assert isinstance(x, str)
+    return x
+
+
+def to_class(c: Type[T], x: Any) -> dict:
+    assert isinstance(x, c)
+    return cast(Any, x).to_dict()
+
+
+@dataclass
+class CitationCreated:
+    """An address was fetched and kept as an asset. The address stays in the event because the
+    copy and the page drift apart from that moment. Keys are snake_case, not the camelCase
+    the rest of leaf uses: this travels inside a Liquid envelope, whose own fields (event_id,
+    occurred_at, event_type, owner_unit_ref) are snake_case and pinned byte-exact by signed
+    golden vectors. The shape follows the wire.
+    """
+    content_id: str
+    """The asset the fetched page became."""
+
+    session_id: str
+    """The working session it was fetched into."""
+
+    source_url: str
+    """The address it was fetched from."""
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'CitationCreated':
+        assert isinstance(obj, dict)
+        content_id = from_str(obj.get("content_id"))
+        session_id = from_str(obj.get("session_id"))
+        source_url = from_str(obj.get("source_url"))
+        return CitationCreated(content_id, session_id, source_url)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["content_id"] = from_str(self.content_id)
+        result["session_id"] = from_str(self.session_id)
+        result["source_url"] = from_str(self.source_url)
+        return result
+
+
+def citation_created_from_dict(s: Any) -> CitationCreated:
+    return CitationCreated.from_dict(s)
+
+
+def citation_created_to_dict(x: CitationCreated) -> Any:
+    return to_class(CitationCreated, x)
